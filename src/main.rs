@@ -2,7 +2,7 @@
  * @Author: Mahires loritas.personal@gmail.com
  * @Date: 2025-03-31 19:44:45
  * @LastEditors: Mahires loritas.personal@gmail.com
- * @LastEditTime: 2025-04-02 03:07:52
+ * @LastEditTime: 2025-04-02 04:12:11
  * @FilePath: \rcli\src\main.rs
  * @Description:
  * Copyright (c) 2025 by Mahires, All Rights Reserved.
@@ -16,7 +16,12 @@ fn main() -> anyhow::Result<()> {
 
     match opts.cmd {
         SubCommand::Csv(opts) => {
-            process_csv(&opts.input, &opts.output)?;
+            let output = if let Some(output) = opts.output {
+                output.clone()
+            } else {
+                format!("temp_output/output.{}", opts.format)
+            };
+            process_csv(&opts.input, output, opts.format)?;
         }
     }
 
