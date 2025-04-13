@@ -1,10 +1,11 @@
 use rand::seq::{IndexedRandom, SliceRandom};
+use zxcvbn::zxcvbn;
 
 /*
  * @Author: Mahires loritas.personal@gmail.com
  * @Date: 2025-04-03 09:15:29
  * @LastEditors: Mahires loritas.personal@gmail.com
- * @LastEditTime: 2025-04-14 02:33:27
+ * @LastEditTime: 2025-04-14 02:43:59
  * @FilePath: \rcli\src\process\genpass.rs
  * @Description:
  * Copyright (c) 2025 by Mahires, All Rights Reserved.
@@ -51,7 +52,9 @@ pub fn process_genpass(
     }
 
     password.shuffle(&mut rng);
-    println!("{}", String::from_utf8(password)?);
-
+    let password = String::from_utf8(password)?;
+    println!("{}", password);
+    let estimate = zxcvbn(&password, &[]);
+    eprintln!("Password strength: {:?}", estimate.score());
     Ok(())
 }
